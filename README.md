@@ -33,7 +33,7 @@ Alternatively, the application can be configured with a webmap id instead of an 
 In that scenario, all the configuration has to be done through through `config\defaults.js`.
 
 ## Maptiks integration
-1. Add a path to Sparkgeo's Maptiks wrapper in index.html:
+1. Add a path to Sparkgeo's Maptiks wrapper in `index.html`:
 
     ```
     var dojoConfig = {
@@ -41,7 +41,7 @@ In that scenario, all the configuration has to be done through through `config\d
         paths: { maptiks: '//cdn.maptiks.com/esri3' }
     };
     ```
-2. Add the maptiks/mapWrapper class to js/main.js:
+2. Add the maptiks/mapWrapper class to `js/main.js`:
 
     ```
     define(["maptiks/mapWrapper",
@@ -50,7 +50,7 @@ In that scenario, all the configuration has to be done through through `config\d
         // ...
     ```
     
-3. Add Maptiks code to js/main.js
+3. Add Maptiks code to `js/main.js`:
 
     ```
     _createWebMap: function (itemInfo, params) {
