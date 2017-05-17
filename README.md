@@ -42,6 +42,42 @@ We would love to hear from you!
 
 When you contact us, don't hesitate to include a link to your application to make it easier for us to understand what you are working on.
 
+## Maptiks integration
+1. Add a path to Sparkgeo's Maptiks wrapper in index.html:
+
+    ```
+    var dojoConfig = {
+        // ...
+        paths: { maptiks: '//cdn.maptiks.com/esri3' }
+    };
+    ```
+2. Add the maptiks/mapWrapper class to js/main.js:
+
+    ```
+    define(["maptiks/mapWrapper",
+    // ...
+        function(mapWrapper,
+        // ...
+    ```
+    
+3. Add Maptiks code to js/main.js
+
+    ```
+    _createWebMap: function (itemInfo, params) {
+        // ...         
+        return arcgisUtils.createMap(itemInfo, "mapDiv", {
+            // ...
+        }).then(lang.hitch(this, function (response) {
+            // ...
+            var container = response.map.container;
+            var maptiksMapOptions = {
+                extent: response.map.extent,
+                maptiks_trackcode: "MAPTIKS_TRACKCODE",
+                maptiks_id: "AN_ID"
+          };
+          mapWrapper(container, maptiksMapOptions, response.map);
+    ```
+
 ## FAQ
 
 ### What are the supported browsers?
