@@ -64,8 +64,8 @@ In that scenario, all the configuration has to be done through through `config\d
                 extent: response.map.extent,
                 maptiks_trackcode: "MAPTIKS_TRACKCODE",
                 maptiks_id: "AN_ID"
-          };
-          mapWrapper(container, maptiksMapOptions, response.map);
+            };
+            mapWrapper(container, maptiksMapOptions, response.map);
     ```
 
 ## Feedback / support
