@@ -32,16 +32,6 @@ Optionally you can also [configure the application](#can-the-application-be-used
 Alternatively, the application can be configured with a webmap id instead of an application id (see `config\defaults.js` > `webmap` on line 22. 
 In that scenario, all the configuration has to be done through through `config\defaults.js`.
 
-## Feedback / support
-We would love to hear from you!
-* [StoryMaps Website](http://storymaps.arcgis.com/)
-* [Let us know about your application](http://storymaps.arcgis.com/en/gallery/submission-form/)
-* [Story Maps forum on GeoNet](http://links.esri.com/storymaps/story_maps_geonet)
-* [@EsriStoryMaps](http://twitter.com/EsriStoryMaps)
-* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
-
-When you contact us, don't hesitate to include a link to your application to make it easier for us to understand what you are working on.
-
 ## Maptiks integration
 1. Add a path to Sparkgeo's Maptiks wrapper in index.html:
 
@@ -77,6 +67,16 @@ When you contact us, don't hesitate to include a link to your application to mak
           };
           mapWrapper(container, maptiksMapOptions, response.map);
     ```
+
+## Feedback / support
+We would love to hear from you!
+* [StoryMaps Website](http://storymaps.arcgis.com/)
+* [Let us know about your application](http://storymaps.arcgis.com/en/gallery/submission-form/)
+* [Story Maps forum on GeoNet](http://links.esri.com/storymaps/story_maps_geonet)
+* [@EsriStoryMaps](http://twitter.com/EsriStoryMaps)
+* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
+
+When you contact us, don't hesitate to include a link to your application to make it easier for us to understand what you are working on.
 
 ## FAQ
 
