@@ -15,7 +15,7 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
+define(["maptiks/mapWrapper",
   "dojo/_base/declare",
   "dojo/_base/lang",
   "dojo/_base/kernel",
@@ -44,7 +44,7 @@ define([
   "application/MapUrlParams",
 
   "dojo/domReady!"
-], function (
+], function (mapWrapper,
   declare, lang, kernel,
   Deferred,
   query, on,
@@ -329,6 +329,15 @@ define([
             }));
           }
           registry.byId("mainWindow").layout();
+          
+          var container = response.map.container;
+          var maptiksMapOptions = {
+              extent: response.map.extent,
+              maptiks_trackcode: "c311cf16-ad79-42b1-97f9-f433be6c8b00",
+              maptiks_id: "basictest"
+          };
+          mapWrapper(container, maptiksMapOptions, response.map);
+          
           // return for promise
           return response;
           // map has been created. You can start using it.
