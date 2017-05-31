@@ -38,19 +38,12 @@ In that scenario, all the configuration has to be done through through `config\d
     ```
     var dojoConfig = {
         // ...
-        paths: { maptiks: '//cdn.maptiks.com/esri3' }
+        aliases: [       
+            ['maptiks', '//cdn.maptiks.com/esri3/mapWrapper.js']
+        ]
     };
     ```
-2. Add the maptiks/mapWrapper class to `js/main.js`:
-
-    ```
-    define(["maptiks/mapWrapper",
-    // ...
-        function(mapWrapper,
-        // ...
-    ```
-    
-3. Add Maptiks code to `js/main.js`:
+2. Add Maptiks code to `js/main.js`. Require the Maptiks package and create the mapWrapper object, which will communicate with Maptiks using the trackcode associated with your domain and ID of your choice:
 
     ```
     _createWebMap: function (itemInfo, params) {
@@ -59,13 +52,15 @@ In that scenario, all the configuration has to be done through through `config\d
             // ...
         }).then(lang.hitch(this, function (response) {
             // ...
-            var container = response.map.container;
-            var maptiksMapOptions = {
-                extent: response.map.extent,
-                maptiks_trackcode: "MAPTIKS_TRACKCODE",
-                maptiks_id: "AN_ID"
-            };
-            mapWrapper(container, maptiksMapOptions, response.map);
+            require(['maptiks'], function (mapWrapper) {
+                var container = response.map.container;
+                var maptiksMapOptions = {
+                    extent: response.map.extent,
+                    maptiks_trackcode: "MAPTIKS_TRACKCODE",
+                    maptiks_id: "ID"
+                };
+                mapWrapper(container, maptiksMapOptions, response.map);
+            });
     ```
 
 ## Feedback / support
