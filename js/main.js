@@ -338,8 +338,8 @@ define([
             var container = response.map.container;
             var maptiksMapOptions = {
                 extent: response.map.extent,
-                maptiks_trackcode: "c311cf16-ad79-42b1-97f9-f433be6c8b00",
-                maptiks_id: "basictest"
+                maptiks_trackcode: this.config.maptiksTrackcode,
+                maptiks_id: this.config.maptiksId
             };
             mapWrapper(container, maptiksMapOptions, response.map);
           });

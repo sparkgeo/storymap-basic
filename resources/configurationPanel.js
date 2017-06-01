@@ -197,7 +197,26 @@
                     ]
                 }
             ]
-        }
+        },
+        {
+              "category": "Maptiks",
+              "fields": [
+                  {
+                      "type": "string",
+                      "fieldName": "maptiksTrackcode",
+                      "placeHolder": "Enter trackcode for your domain",
+                      "label": "Maptiks Trackcode:",
+                      "tooltip": "Enter Maptiks trackcode."
+                  },
+                  {
+                      "type": "string",
+                      "fieldName": "maptiksId",
+                      "placeHolder": "Enter an ID for this story map",
+                      "label": "Maptiks ID:",
+                      "tooltip": "Enter an ID for this story map. The ID will help organize this story map's entries within Maptiks."
+                  }
+              ]
+          }
     ],
         "values":{
         "background":"#444",
