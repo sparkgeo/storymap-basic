@@ -333,8 +333,8 @@ define([
           // *******************************************
           // **** Maptiks Changes below
           // *******************************************
-          
-          require(['maptiks'], function (mapWrapper) {
+
+          require(['maptiks'], lang.hitch(this, function (mapWrapper) {
             var container = response.map.container;
             var maptiksMapOptions = {
                 extent: response.map.extent,
@@ -342,8 +342,8 @@ define([
                 maptiks_id: this.config.maptiksId
             };
             mapWrapper(container, maptiksMapOptions, response.map);
-          });
-          
+          }));
+
           // *******************************************
           // **** Maptiks Changes done
           // *******************************************
