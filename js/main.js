@@ -329,6 +329,25 @@ define([
             }));
           }
           registry.byId("mainWindow").layout();
+          
+          // *******************************************
+          // **** Maptiks Changes below
+          // *******************************************
+          
+          require(['maptiks'], function (mapWrapper) {
+            var container = response.map.container;
+            var maptiksMapOptions = {
+                extent: response.map.extent,
+                maptiks_trackcode: this.config.maptiksTrackcode,
+                maptiks_id: this.config.maptiksId
+            };
+            mapWrapper(container, maptiksMapOptions, response.map);
+          });
+          
+          // *******************************************
+          // **** Maptiks Changes done
+          // *******************************************
+          
           // return for promise
           return response;
           // map has been created. You can start using it.

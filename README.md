@@ -32,6 +32,37 @@ Optionally you can also [configure the application](#can-the-application-be-used
 Alternatively, the application can be configured with a webmap id instead of an application id (see `config\defaults.js` > `webmap` on line 22. 
 In that scenario, all the configuration has to be done through through `config\defaults.js`.
 
+## Maptiks integration
+1. Add a path to Sparkgeo's Maptiks wrapper in `index.html`:
+
+    ```
+    var dojoConfig = {
+        // ...
+        aliases: [       
+            ['maptiks', '//cdn.maptiks.com/esri3/mapWrapper.js']
+        ]
+    };
+    ```
+2. Add Maptiks code to `js/main.js`. Require the Maptiks package and create the mapWrapper object, which will communicate with Maptiks using the trackcode associated with your domain and ID of your choice:
+
+    ```
+    _createWebMap: function (itemInfo, params) {
+        // ...         
+        return arcgisUtils.createMap(itemInfo, "mapDiv", {
+            // ...
+        }).then(lang.hitch(this, function (response) {
+            // ...
+            require(['maptiks'], function (mapWrapper) {
+                var container = response.map.container;
+                var maptiksMapOptions = {
+                    extent: response.map.extent,
+                    maptiks_trackcode: "MAPTIKS_TRACKCODE",
+                    maptiks_id: "ID"
+                };
+                mapWrapper(container, maptiksMapOptions, response.map);
+            });
+    ```
+
 ## Feedback / support
 We would love to hear from you!
 * [StoryMaps Website](http://storymaps.arcgis.com/)
