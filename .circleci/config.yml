@@ -27,6 +27,7 @@ jobs:
   deploy-prod:
     <<: *defaults
     steps:
+      - checkout
       - run:
           name: deploy to aws
           command: aws s3 sync . s3://templates.maptiks.com/StoryMapBasic/ --delete --quiet
@@ -38,6 +39,7 @@ jobs:
   deploy-staging:
     <<: *defaults
     steps:
+      - checkout
       - run:
           name: Envir Injection
           command: |
@@ -53,6 +55,7 @@ jobs:
   deploy-dev:
     <<: *defaults
     steps:
+      - checkout
       - run:
           name: Envir Injection
           command: |
