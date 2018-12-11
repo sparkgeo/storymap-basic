@@ -1,0 +1,97 @@
+version: 2
+
+defaults: &defaults
+  docker:
+    - image: sparkgeo/base:circleci
+  working_directory: ~/project
+
+jobs:
+
+  reset-master:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Resetting master to $CIRCLE_TAG
+          command: |
+            git config user.email "alain+sparkgeobot@sparkgeo.com"
+            git config user.name "SparkgeoBot"
+            git push origin ${CIRCLE_SHA1:0:7}:master
+      - run:
+          name: Merge $CIRCLE_TAG into develop
+          command: |
+            git checkout origin/develop
+            git merge ${CIRCLE_SHA1:0:7} -m "Merge ${CIRCLE_TAG} into develop"
+            git push origin HEAD:develop
+
+  deploy-prod:
+    <<: *defaults
+    steps:
+      - run:
+          name: deploy to aws
+          command: aws s3 sync . s3://templates.maptiks.com/StoryMapBasic/ --delete --quiet
+      - run:
+          name: clear cloudflare cache
+          command: |
+            curl -X DELETE "https://api.cloudflare.com/client/v4/zones/34e8519f80106c3699e76002b4153ce5/purge_cache" -H "X-Auth-Email: will@sparkgeo.com" -H "X-Auth-Key: $CF_KEY" -H "Content-Type: application/json" --data '{"purge_everything": true}'
+
+  deploy-staging:
+    <<: *defaults
+    steps:
+      - run:
+          name: Envir Injection
+          command: |
+            find . -name 'index.html' -exec sed -i 's/cdn.maptiks.com/cdn-staging.maptiks.com/g' {} +
+      - run:
+          name: deploy to aws
+          command: aws s3 sync . s3://templates-staging.maptiks.com/StoryMapBasic/ --delete --quiet
+      - run:
+          name: clear cloudflare cache
+          command: |
+            curl -X DELETE "https://api.cloudflare.com/client/v4/zones/34e8519f80106c3699e76002b4153ce5/purge_cache" -H "X-Auth-Email: will@sparkgeo.com" -H "X-Auth-Key: $CF_KEY" -H "Content-Type: application/json" --data '{"purge_everything": true}'
+
+  deploy-dev:
+    <<: *defaults
+    steps:
+      - run:
+          name: Envir Injection
+          command: |
+            find . -name 'index.html' -exec sed -i 's/cdn.maptiks.com/cdn-dev.maptiks.com/g' {} +
+      - run:
+          name: deploy to aws
+          command: aws s3 sync . s3://templates-dev.maptiks.com/StoryMapBasic/ --delete --quiet
+      - run:
+          name: clear cloudflare cache
+          command: |
+            curl -X DELETE "https://api.cloudflare.com/client/v4/zones/34e8519f80106c3699e76002b4153ce5/purge_cache" -H "X-Auth-Email: will@sparkgeo.com" -H "X-Auth-Key: $CF_KEY" -H "Content-Type: application/json" --data '{"purge_everything": true}'
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - deploy-prod:
+          context: org-global
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v[0-9]+(\.[0-9]+)+/
+      - deploy-staging:
+          context: org-global
+          filters:
+            branches:
+              only: /rc[0-9]+(\.[0-9]+)+/
+      - deploy-dev:
+          context: org-global
+          filters:
+            branches:
+              only: develop
+      - reset-master:
+          context: org-global
+          requires:
+            - deploy-prod
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v[0-9]+(\.[0-9]+)+/
